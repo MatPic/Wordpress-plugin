@@ -120,8 +120,8 @@ class Mmix_Admin {
 			'view_item' => __( 'Voir Candidat', 'textdomain' ),
 			'view_items' => __( 'Voir Candidats', 'textdomain' ),
 			'search_items' => __( 'Rechercher dans les Candidat', 'textdomain' ),
-			'not_found' => __( 'Aucun Candidattrouvé.', 'textdomain' ),
-			'not_found_in_trash' => __( 'Aucun Candidattrouvé dans la corbeille.', 'textdomain' ),
+			'not_found' => __( 'Aucun Candidat trouvé.', 'textdomain' ),
+			'not_found_in_trash' => __( 'Aucun Candidat trouvé dans la corbeille.', 'textdomain' ),
 			'featured_image' => __( 'Image mise en avant', 'textdomain' ),
 			'set_featured_image' => __( 'Définir l’image mise en avant', 'textdomain' ),
 			'remove_featured_image' => __( 'Supprimer l’image mise en avant', 'textdomain' ),
@@ -219,41 +219,41 @@ class Mmix_Admin {
 	}
 	
 	public function create_concours_taxonomie () {
-		$prefix = 'concours';
+		$prefix = 'concours_';
 		
 	 	$cmb_term = new_cmb2_box( array( 
 	 		'id'               => $prefix . 'edit', 
-	 		'title'            => esc_html__( 'Infos du concours', 'cmb2' ), // Doesn't output for term boxes 
-	 		'object_types'     => array( 'term' ), // Tells CMB2 to use term_meta vs post_meta 
-	 		'taxonomies'       => array( 'concours' ), // Tells CMB2 which taxonomies should have these fields 
-	 		'new_term_section' => true, // Will display in the "Add New Category" section 
+	 		'title'            => esc_html__( 'Infos du concours', 'cmb2' ),
+	 		'object_types'     => array( 'term' ),
+	 		'taxonomies'       => array( 'concours' ),
+	 		'new_term_section' => true,
 	 	) ); 
 	  
 	 	$cmb_term->add_field( array( 
-	 		'name'     => 'Select Start Date', 
+	 		'name'     => 'Start Date', 
 	 		'id'       => $prefix . 'start_date', 
-	 		'type'     => 'text_date_timestamp',
+	 		'type'     => 'text_datetime_timestamp',
 	 		'column' => array(
 	 			'position' => 3,
 	 		),
 	 	) ); 
 	  
 	 	$cmb_term->add_field( array( 
-	 		'name' => 'Select End Date', 
+	 		'name' => 'End Date', 
 	 		'id'   => $prefix . 'end_date', 
-	 		'type' => 'text_date_timestamp',
+	 		'type' => 'text_datetime_timestamp',
 	 		'column' => array(
 	 			'position' => 4,
 	 		),
 	 	) ); 
 	  
 	 	$cmb_term->add_field( array( 
-	 		'name' => 'Type of Contest',
+	 		'name' => 'Contest',
 	 		'id'   => $prefix . 'contest', 
 	 		'type' => 'select',
 	 		'show_option_none' => true,
 	 		'column' => array(
-	 			'position' => 7,
+	 			'position' => 6,
 	 		),
 	 		'default' => 'custom',
 	 		'options' => array(
@@ -261,7 +261,107 @@ class Mmix_Admin {
 	 			'web' => __('Web', 'cmb2'),
 	 			'audiovisuel' => __('Audiovisuel', 'cmb2'),
 	 			'communication' => __('Communication', 'cmb2'),
+	 			'graphisme' => __('Graphisme', 'cmb2'),
 	 		),
 	 	) ); 
+	}
+	
+	public function create_candidat_metaboxe () {
+		$prefix = 'candidat_';
+		
+		$general_info = new_cmb2_box( array( 
+	 		'id'               => $prefix . 'edit', 
+	 		'title'            => esc_html__( 'Infos sur la candidature', 'cmb2' ),
+	 		'object_types'     => array( 'candidat' ),
+	 	) );
+	 	
+	 	$general_info->add_field( array(
+	 		'id' => 'new_candidat_trigger',
+	 		'type' => 'hidden',
+	 	) );
+	 	
+	 	$general_info->add_field( array( 
+	 		'name'     => 'Contributeurs', 
+	 		'id'       => $prefix . 'contributeurs', 
+	 		'type'     => 'text_medium',
+	 	) );
+	 	
+	 	$general_info->add_field( array( 
+	 		'name'     => 'Candidature au concours', 
+	 		'desc'	   => 'Sélectionnez le concours où vous voulez inscrire la création',
+	 		'id'       => $prefix . 'concours_select', 
+	 		'type'     => 'taxonomy_select',
+	 		'taxonomy' => 'concours',
+	 		'remove_default' => true,
+	 	) );
+	 	
+	 	$general_info->add_field( array( 
+	 		'name'     => 'Type de création', 
+	 		'id'       => $prefix . 'creation', 
+	 		'type'     => 'select',
+	 		'options' => array(
+	 			'audiovisuel' => __('Audiovisuel', 'cmb2'),
+	 			'web' => __('Web', 'cmb2'),
+	 			'graphisme' => __('Graphisme', 'cmb2'),
+	 			'other' => __('Autre', 'cmb2'),
+	 		),
+	 	) ); 
+	 	
+	 	$av_info = new_cmb2_box( array( 
+	 		'id'               => $prefix . 'details_audiovisuel', 
+	 		'title'            => esc_html__( 'Détails : audiovisuel', 'cmb2' ),
+	 		'object_types'     => array( 'candidat' ),
+	 	) );
+	 	
+	 	$av_info->add_field( array( 
+	 		'name'     => 'URL (YouTube, SoundCloud, ...)', 
+	 		'id'       => $prefix . 'av_url', 
+	 		'type'     => 'oembed',
+	 	) );
+	 	
+	 	$av_info->add_field( array( 
+	 		'name'     => 'Catégorie', 
+	 		'id'       => $prefix . 'av_categorie', 
+	 		'type'     => 'select',
+	 		'options' => array(
+	 			'reportage' => __('Reportage', 'cmb2'),
+	 			'fiction' => __('Fiction', 'cmb2'),
+	 			'motion-design' => __('Motion-design', 'cmb2'),
+	 			'other' => __('Autre', 'cmb2'),
+	 		),
+	 	) );
+	 	
+	 	$web_info = new_cmb2_box( array( 
+	 		'id'               => $prefix . 'details_web', 
+	 		'title'            => esc_html__( 'Détails : web', 'cmb2' ),
+	 		'object_types'     => array( 'candidat' ),
+	 	) );
+	 	
+	 	$web_info->add_field( array(
+	 		'name'			   => 'URL du site',
+	 		'id'               => $prefix . 'web_url', 
+	 		'type'  		   => 'text_url',
+	 	) );
+	 	
+	 	$web_info->add_field( array(
+	 		'name'			   => 'Type de site',
+	 		'id'               => $prefix . 'web_type', 
+	 		'type'  		   => 'select',
+	 		'options' => array(
+	 			'portfolio' => __('Portfolio', 'cmb2'),
+	 			'vitrine' => __('Vitrine', 'cmb2'),
+	 			'e-commerce' => __('E-commerce', 'cmb2'),
+	 			'other' => __('Autre', 'cmb2'),
+	 		),
+	 	) );
+	 	
+	 	$web_info->add_field( array(
+	 		'id'               => $prefix . 'web_dynamique', 
+	 		'type'  		   => 'radio',
+	 		'options'          => array(
+				'statique' => __( 'Statique', 'cmb2' ),
+				'dynamique' => __( 'Dynamique', 'cmb2' ),
+			),
+	 	) );
 	}
 }
