@@ -214,6 +214,16 @@ class Mmix_Admin {
 		return $parent_file;	
 	}
 	
+	public function register_concours_columns ($columns) {
+		$new_columns_before = array(
+			'id' => esc_html__('Id', 'text_domain')
+		);
+		$new_columns_after = array(
+			'shortcode' => esc_html__('Shortcode', 'text_domain')
+		);
+		return array_merge($new_columns_before, $columns, $new_columns_after);
+	}
+	
 	public function render_html () {
 		include_once __DIR__.'/partials/mmix-admin-display.php';
 	}
@@ -281,12 +291,6 @@ class Mmix_Admin {
 	 	) );
 	 	
 	 	$general_info->add_field( array( 
-	 		'name'     => 'Contributeurs', 
-	 		'id'       => $prefix . 'contributeurs', 
-	 		'type'     => 'text_medium',
-	 	) );
-	 	
-	 	$general_info->add_field( array( 
 	 		'name'     => 'Candidature au concours', 
 	 		'desc'	   => 'Sélectionnez le concours où vous voulez inscrire la création',
 	 		'id'       => $prefix . 'concours_select', 
@@ -307,10 +311,22 @@ class Mmix_Admin {
 	 		),
 	 	) ); 
 	 	
+	 	$general_info->add_field( array(
+            'name'    => 'Contributeurs',
+            'desc'    => 'Les noms de tous les contributeurs au projet)',
+            'id'      => $prefix.'contributors',
+            'type'    => 'text',
+            'repeatable' => true,
+            'text' => array(
+                'add_row_text' => 'Ajouter un contributeur',
+            ),
+        ) );
+	 	
 	 	$av_info = new_cmb2_box( array( 
 	 		'id'               => $prefix . 'details_audiovisuel', 
 	 		'title'            => esc_html__( 'Détails : audiovisuel', 'cmb2' ),
 	 		'object_types'     => array( 'candidat' ),
+	 		'priority'		   => 'low',
 	 	) );
 	 	
 	 	$av_info->add_field( array( 
@@ -331,10 +347,19 @@ class Mmix_Admin {
 	 		),
 	 	) );
 	 	
+	 	$av_info->add_field( array(
+            'name'    => 'Description du projet',
+            'desc'    => 'Expliquez votre démarche, les choses à savoir pour le projet, etc...',
+            'id'      => $prefix.'av_description',
+            'type'    => 'wysiwyg',
+            'options' => array(),
+        ) );
+	 	
 	 	$web_info = new_cmb2_box( array( 
 	 		'id'               => $prefix . 'details_web', 
 	 		'title'            => esc_html__( 'Détails : web', 'cmb2' ),
 	 		'object_types'     => array( 'candidat' ),
+	 		'priority'		   => 'low',
 	 	) );
 	 	
 	 	$web_info->add_field( array(
@@ -356,12 +381,78 @@ class Mmix_Admin {
 	 	) );
 	 	
 	 	$web_info->add_field( array(
+	 		'name' => 'Le site est ...',
 	 		'id'               => $prefix . 'web_dynamique', 
-	 		'type'  		   => 'radio',
+	 		'type'  		   => 'radio_inline',
 	 		'options'          => array(
 				'statique' => __( 'Statique', 'cmb2' ),
 				'dynamique' => __( 'Dynamique', 'cmb2' ),
 			),
 	 	) );
+	 	
+	 	$web_info->add_field( array(
+            'name'    => 'Description du projet',
+            'desc'    => 'Expliquez votre démarche, les choses à savoir pour le projet, etc...',
+            'id'      => $prefix.'web_description',
+            'type'    => 'wysiwyg',
+            'options' => array(),
+        ) );
+	 	
+	 	$graphisme_info = new_cmb2_box( array(
+            'id'               => $prefix.'details_graphisme',
+            'title'            => esc_html__( 'Détails : graphisme', 'cmb2' ),
+            'object_types'     => array( 'candidat' ),
+            'priority'		   =>'low'
+        ) );
+
+        $graphisme_info->add_field( array(
+            'name' => 'Image(s)',
+            'desc' => 'La ou les images composant votre projet',
+            'id'   => $prefix.'graphisme_images',
+            'type' => 'file_list',
+             'query_args' => array( 'type' => 'image' ),
+            'text' => array(
+                'add_upload_files_text' => 'Ajouter ou Uploader des images',
+                'remove_image_text' => 'Enelever l\'image',
+                'file_text' => 'Fichier:',
+                'file_download_text' => 'Télécharger',
+                'remove_text' => 'Enlever',
+            ),
+        ) );
+        $graphisme_info->add_field( array(
+            'name' => 'Type de création',
+            'id'   => $prefix.'graphisme_type',
+            'type'             => 'select',
+            'show_option_none' => false,
+            'default'          => 'custom',
+            'options'          => array(
+                'infographie'   =>   __( 'Infographie', 'cmb2' ),
+                'dessin'     =>    __( 'Dessin', 'cmb2' ),
+                'other' => __( 'Autre', 'cmb2' ),
+            ),
+        ) );
+
+        $graphisme_info->add_field( array(
+            'name'    => 'Description du projet',
+            'desc'    => 'Expliquez votre démarche, les choses à savoir pour le projet, etc...',
+            'id'      => $prefix.'graphisme_description',
+            'type'    => 'wysiwyg',
+            'options' => array(),
+        ) );
+        
+        $other_info = new_cmb2_box( array(
+            'id'               => $prefix.'details_other',
+            'title'            => esc_html__( 'Détails : autre', 'cmb2' ),
+            'object_types'     => array( 'candidat' ),
+            'priority'		   =>'low'
+        ) );
+        
+        $other_info->add_field( array(
+            'name'    => 'Description du projet',
+            'desc'    => 'Expliquez votre démarche, les choses à savoir pour le projet, etc...',
+            'id'      => $prefix.'other_description',
+            'type'    => 'wysiwyg',
+            'options' => array(),
+        ) );
 	}
 }
