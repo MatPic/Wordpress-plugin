@@ -198,37 +198,70 @@ class Mmix_Admin {
 	public function apply_menu_filters($parent_file) {
 
 		global $current_screen, $submenu_file;
-		
 		$base = $current_screen->base;
-		
 		$action = $current_screen->action;
-		
 		$post_type = $current_screen->post_type;
-		
 		$taxonomy = $current_screen->taxonomy;
 		
 		if ($taxonomy == 'concours'){
-		
-		$parent_file = 'mmix';
-		
-		$submenu_file = 'edit-tags.php?taxonomy='.'concours'.'&post_type='.'candidat';
-		
+			$parent_file = 'mmix';
+			$submenu_file = 'edit-tags.php?taxonomy='.'concours'.'&post_type='.'candidat';
+		} elseif ($post_type == 'candidat') {
+			$parent_file = 'mmix';
+			$submenu_file = 'edit.php?post_type='.'candidat';
 		}
 		
-		elseif ($post_type == 'candidat') {
-		
-		$parent_file = 'mmix';
-		
-		$submenu_file = 'edit.php?post_type='.'candidat';
-		
-		}
-		
-		
-		return $parent_file;
-		
+		return $parent_file;	
 	}
 	
 	public function render_html () {
 		include_once __DIR__.'/partials/mmix-admin-display.php';
+	}
+	
+	public function create_concours_taxonomie () {
+		$prefix = 'concours';
+		
+	 	$cmb_term = new_cmb2_box( array( 
+	 		'id'               => $prefix . 'edit', 
+	 		'title'            => esc_html__( 'Infos du concours', 'cmb2' ), // Doesn't output for term boxes 
+	 		'object_types'     => array( 'term' ), // Tells CMB2 to use term_meta vs post_meta 
+	 		'taxonomies'       => array( 'concours' ), // Tells CMB2 which taxonomies should have these fields 
+	 		'new_term_section' => true, // Will display in the "Add New Category" section 
+	 	) ); 
+	  
+	 	$cmb_term->add_field( array( 
+	 		'name'     => 'Select Start Date', 
+	 		'id'       => $prefix . 'start_date', 
+	 		'type'     => 'text_date_timestamp',
+	 		'column' => array(
+	 			'position' => 3,
+	 		),
+	 	) ); 
+	  
+	 	$cmb_term->add_field( array( 
+	 		'name' => 'Select End Date', 
+	 		'id'   => $prefix . 'end_date', 
+	 		'type' => 'text_date_timestamp',
+	 		'column' => array(
+	 			'position' => 4,
+	 		),
+	 	) ); 
+	  
+	 	$cmb_term->add_field( array( 
+	 		'name' => 'Type of Contest',
+	 		'id'   => $prefix . 'contest', 
+	 		'type' => 'select',
+	 		'show_option_none' => true,
+	 		'column' => array(
+	 			'position' => 7,
+	 		),
+	 		'default' => 'custom',
+	 		'options' => array(
+	 			'various' => __('Various', 'cmb2'),
+	 			'web' => __('Web', 'cmb2'),
+	 			'audiovisuel' => __('Audiovisuel', 'cmb2'),
+	 			'communication' => __('Communication', 'cmb2'),
+	 		),
+	 	) ); 
 	}
 }

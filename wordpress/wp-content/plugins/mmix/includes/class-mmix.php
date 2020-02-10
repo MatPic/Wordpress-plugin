@@ -160,6 +160,7 @@ class Mmix {
 		$this->loader->add_action( 'init', $plugin_admin, 'create_concours_tax');
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_admin_menu');
 		$this->loader->add_action( 'parent_file', $plugin_admin, 'apply_menu_filters');
+		$this->loader->add_action( 'cmb2-admin-init', $plugin_admin, 'create_concours_taxonomie');
 	}
 
 	/**
