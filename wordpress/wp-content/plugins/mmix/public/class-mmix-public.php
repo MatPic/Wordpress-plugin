@@ -59,9 +59,17 @@ class Mmix_Public {
 	}
 	
 	public function candidates_html ($atts, $content) {
-		include_once __DIR__.'./partials/mmix-public-display.php';
-		$data = [];
-		return mmix_public_display(compact(data));
+		include_once __DIR__.'/partials/mmix-public-display.php';
+		$args = array(
+			'post_type' => 'candidat',
+			'tax_query' => array(
+					'taxonomy' => 'concours',
+					'field' => 'slug',
+					'terms' => $atts['id']
+				)
+		);
+		$candidates_data = new WP_Query($args);
+		return mmix_public_display($candidates_data);
 	}
 
 	/**

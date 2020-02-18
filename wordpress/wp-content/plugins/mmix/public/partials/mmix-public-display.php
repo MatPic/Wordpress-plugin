@@ -12,13 +12,17 @@
  * @subpackage Mmix/public/partials
  */
  
- function mmix_public_display ($atts, $content) {
-     ob_start()
+ function mmix_public_display ($candidates) {
+     ob_start();
+     if ($candidates->have_posts()):
+         while ($candidates->have_posts()): $candidates->the_post();
 ?>
     <ul>
-        <li></li>
+        <li><?= get_the_ID()?></li>
     </ul>
 <?php
+    endwhile;
+    endif;
     return ob_get_clean();
  }
  
