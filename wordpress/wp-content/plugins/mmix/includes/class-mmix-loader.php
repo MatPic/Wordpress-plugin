@@ -80,6 +80,10 @@ class Mmix_Loader {
 	public function add_filter( $hook, $component, $callback, $priority = 10, $accepted_args = 1 ) {
 		$this->filters = $this->add( $this->filters, $hook, $component, $callback, $priority, $accepted_args );
 	}
+	
+	public function add_shortcode( $hook, $component, $callback) {
+		$this->shortcodes = $this->add( $this->shortcodes, $hook, $component, $callback);
+	}
 
 	/**
 	 * A utility function that is used to register the actions and hooks into a single
@@ -95,16 +99,24 @@ class Mmix_Loader {
 	 * @param    int                  $accepted_args    The number of arguments that should be passed to the $callback.
 	 * @return   array                                  The collection of actions and filters registered with WordPress.
 	 */
-	private function add( $hooks, $hook, $component, $callback, $priority, $accepted_args ) {
-
-		$hooks[] = array(
-			'hook'          => $hook,
-			'component'     => $component,
-			'callback'      => $callback,
-			'priority'      => $priority,
-			'accepted_args' => $accepted_args
-		);
-
+	private function add( $hooks, $hook, $component, $callback, $priority = null, $accepted_args = null) {
+		
+		if ($priority === null) {
+			$hooks[] = array(
+				'hook'          => $hook,
+				'component'     => $component,
+				'callback'      => $callback
+			);
+		} else {
+			$hooks[] = array(
+				'hook'          => $hook,
+				'component'     => $component,
+				'callback'      => $callback,
+				'priority'      => $priority,
+				'accepted_args' => $accepted_args
+			);
+		}
+		
 		return $hooks;
 
 	}
@@ -122,6 +134,10 @@ class Mmix_Loader {
 
 		foreach ( $this->actions as $hook ) {
 			add_action( $hook['hook'], array( $hook['component'], $hook['callback'] ), $hook['priority'], $hook['accepted_args'] );
+		}
+		
+		foreach ( $this->shortcodes as $hook ) {
+			add_shortcode( $hook['hook'], array( $hook['component'], $hook['callback'] ));
 		}
 
 	}

@@ -229,7 +229,7 @@ class Mmix_Admin {
 			return $item_id;
 		}
 		if ($col_name === "shortcode") {
-			return "[mmix id = $item_id]";
+			return "[mmix id = \"$item_id\"]";
 		}
 		return $column;
 	}

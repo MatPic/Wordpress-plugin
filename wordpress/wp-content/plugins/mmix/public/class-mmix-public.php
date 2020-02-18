@@ -53,6 +53,16 @@ class Mmix_Public {
 		$this->version = $version;
 
 	}
+	
+	public function sortcode () {
+		add_shortcode('mmix', [$this, 'candidates_html']);
+	}
+	
+	public function candidates_html ($atts, $content) {
+		include_once __DIR__.'./partials/mmix-public-display.php';
+		$data = [];
+		return mmix_public_display(compact(data));
+	}
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.

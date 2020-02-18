@@ -11,4 +11,15 @@
  * @package    Mmix
  * @subpackage Mmix/public/partials
  */
+ 
+ function mmix_public_display ($atts, $content) {
+     ob_start()
+?>
+    <ul>
+        <li></li>
+    </ul>
+<?php
+    return ob_get_clean();
+ }
+ 
 ?>
