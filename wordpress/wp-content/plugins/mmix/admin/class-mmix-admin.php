@@ -331,6 +331,13 @@ class Mmix_Admin {
                 'add_row_text' => 'Ajouter un contributeur',
             ),
         ) );
+        
+        $general_info->add_field( array(
+            'name' => 'Illustration',
+            'desc' => 'Image illustrant votre projet',
+            'id'   => $prefix.'illustration_image',
+            'type' => 'file',
+        ) );
 	 	
 	 	$av_info = new_cmb2_box( array( 
 	 		'id'               => $prefix . 'details_audiovisuel', 
