@@ -49,6 +49,16 @@
 <?php
     endwhile;
     endif;
+?>
+    
+    <div id="candidate-modal-wrapper">
+        <div id="candidate-modal">
+            
+        </div>
+    </div>
+</div>
+    
+<?php
     return ob_get_clean();
  }
  
