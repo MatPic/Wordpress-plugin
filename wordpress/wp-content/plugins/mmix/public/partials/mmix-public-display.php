@@ -17,7 +17,7 @@
      if ($candidates->have_posts()):
         echo '<div class="mmix-candidatures">';
     while ($candidates->have_posts()): $candidates->the_post();
-        $type = get_post_meta( get_the_ID(), 'candidat_type', true );
+        $type = get_post_meta( get_the_ID(), 'candidat_creation', true );
         ?>
         <figure class="mmix_card">
             <div class="mmix_card__hero">

@@ -348,13 +348,13 @@ class Mmix_Admin {
 	 	
 	 	$av_info->add_field( array( 
 	 		'name'     => 'URL (YouTube, SoundCloud, ...)', 
-	 		'id'       => $prefix . 'av_url', 
+	 		'id'       => $prefix . 'audiovisuel_url', 
 	 		'type'     => 'oembed',
 	 	) );
 	 	
 	 	$av_info->add_field( array( 
 	 		'name'     => 'Catégorie', 
-	 		'id'       => $prefix . 'av_categorie', 
+	 		'id'       => $prefix . 'audiovisuel_categorie', 
 	 		'type'     => 'select',
 	 		'options' => array(
 	 			'reportage' => __('Reportage', 'cmb2'),
@@ -367,7 +367,7 @@ class Mmix_Admin {
 	 	$av_info->add_field( array(
             'name'    => 'Description du projet',
             'desc'    => 'Expliquez votre démarche, les choses à savoir pour le projet, etc...',
-            'id'      => $prefix.'av_description',
+            'id'      => $prefix.'audiovisuel_description',
             'type'    => 'wysiwyg',
             'options' => array(),
         ) );
