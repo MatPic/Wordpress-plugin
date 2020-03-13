@@ -40,7 +40,7 @@
                         <?php endforeach; ?>
                     </div>
                     <div class="mmix_card_action">
-                        <a href="#" class="mmix_btn mmix_btn-outline-<?= strtolower($type) ?>"><i class="fas fa-eye"></i> Voir</a>
+                        <a href="#" data-candidate-id="<?= the_ID() ?>" class="mmix_btn mmix_btn-outline-<?= strtolower($type) ?>"><i class="fas fa-eye"></i> Voir</a>
                     </div>
 
                 </div>

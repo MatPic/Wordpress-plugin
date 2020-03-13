@@ -293,6 +293,8 @@ class Mmix_Admin {
 	 		'id'               => $prefix . 'edit', 
 	 		'title'            => esc_html__( 'Infos sur la candidature', 'cmb2' ),
 	 		'object_types'     => array( 'candidat' ),
+	 		'priority'		   => 'low',
+	 		'show_in_rest'	   => WP_REST_Server::READABLE
 	 	) );
 	 	
 	 	$general_info->add_field( array(
