@@ -71,6 +71,30 @@ class Mmix_Public {
 		$candidates_data = new WP_Query($args);
 		return mmix_public_display($candidates_data);
 	}
+	
+	public function mmix_public_show_participant ($content) {
+		if (is_singular('participant')) {
+			$type_cat_slug_name = get_the_terms(get_the_ID(), 'creationtype')[0]->slug;
+			switch($type_cat_slug_name) {
+				case 'web' :
+					return $this->mmix_public_view->mmix_public_view_modal_single_participant_web($content);
+					break;
+				case 'audiovisuel' :
+					return $this->mmix_public_view->mmix_public_view_modal_single_participant_audiovisuel($content);
+					break;
+				case 'graphisme' :
+					return $this->mmix_public_view->mmix_public_view_modal_single_participant_graphisme($content);
+					break;
+				case 'other' :
+					return $this->mmix_public_view->mmix_public_view_modal_single_participant_other($content);
+					break;
+				default :
+					return $content;
+					break;
+			}
+		}
+		return $content;
+	}
 
 	/**
 	 * Register the stylesheets for the public-facing side of the site.

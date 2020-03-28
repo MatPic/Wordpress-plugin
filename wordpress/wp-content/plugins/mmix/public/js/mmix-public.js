@@ -8,6 +8,11 @@
 			$modal.addClass('visible')
 			// $.ajax()
 		})
+		$('#candidate-modal-wrapper').click(function (ev) {
+		  if (ev.target === this) {
+		    $(this).removeClass('visible')
+		  }
+		})
 	})
 
 	/**

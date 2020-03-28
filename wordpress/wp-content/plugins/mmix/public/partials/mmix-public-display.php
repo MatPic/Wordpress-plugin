@@ -42,7 +42,6 @@
                     <div class="mmix_card_action">
                         <a href="#" data-candidate-id="<?= the_ID() ?>" class="mmix_btn mmix_btn-outline-<?= strtolower($type) ?>"><i class="fas fa-eye"></i> Voir</a>
                     </div>
-
                 </div>
             </div>
         </figure>
