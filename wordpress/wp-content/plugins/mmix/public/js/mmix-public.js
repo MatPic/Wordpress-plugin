@@ -2,16 +2,25 @@
 	'use strict';
 	
 	$(document).ready(function () {
-		$('[data-candidate-id]').click(function (ev) {
+		const restURL = $('.mmix-candidatures').data('rest-url')
+		$('.js-mmix-view').click(function (ev) {
 			ev.preventDefault()
-			const $modal = $('#candidate-modal-wrapper')
-			$modal.addClass('visible')
-			// $.ajax()
+			const url = this.href
+			const $modalWrapper = $('#candidate-modal-wrapper')
+			const $modal = $('#candidate-modal')
+			$modalWrapper.addClass('visible')
+			$.ajax({
+				url
+			}).done(data => {
+				const resultPage = $.parseHTML(data)
+				$modal.html($(resultPage).find('[data-api]').html())
+			})
 		})
+
 		$('#candidate-modal-wrapper').click(function (ev) {
-		  if (ev.target === this) {
-		    $(this).removeClass('visible')
-		  }
+			if (ev.target === this) {
+				$(this).removeClass('visible')
+			}
 		})
 	})
 

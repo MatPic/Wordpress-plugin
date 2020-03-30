@@ -40,6 +40,8 @@ class Mmix_Loader {
 	 * @var      array    $filters    The filters registered with WordPress to fire when the plugin loads.
 	 */
 	protected $filters;
+	
+	protected $shortcodes;
 
 	/**
 	 * Initialize the collections used to maintain the actions and filters.
@@ -50,6 +52,7 @@ class Mmix_Loader {
 
 		$this->actions = array();
 		$this->filters = array();
+		$this->shortcodes = array();
 
 	}
 
@@ -81,8 +84,8 @@ class Mmix_Loader {
 		$this->filters = $this->add( $this->filters, $hook, $component, $callback, $priority, $accepted_args );
 	}
 	
-	public function add_shortcode( $hook, $component, $callback) {
-		$this->shortcodes = $this->add( $this->shortcodes, $hook, $component, $callback);
+	public function add_shortcode( $shortcode, $component, $callback) {
+		$this->shortcodes = $this->add( $this->shortcodes, $shortcode, $component, $callback);
 	}
 
 	/**
