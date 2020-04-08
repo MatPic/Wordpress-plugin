@@ -28,12 +28,19 @@ function mmix_public_display ($atts, $content) {
     ob_start();
     ?>
 <div class="mmix-candidatures" data-rest-url="<?= get_rest_url() ?>">
+    <div class="mmix-candidatures-filters">
+      <a href="#" class="mmix_btn mmix-filter-btn" data-filter="*">All</a>
+      <a href="#" class="mmix_btn mmix_btn-outline-web mmix-filter-btn" data-filter='[data-type="web"]'>Web</a>
+      <a href="#" class="mmix_btn mmix_btn-outline-graphisme mmix-filter-btn" data-filter='[data-type="graphisme"]'>Graphisme</a>
+      <a href="#" class="mmix_btn mmix_btn-outline-audiovisuel mmix-filter-btn" data-filter='[data-type="audiovisuel"]'>Audiovisuel</a>
+    </div>
+    <div class="grid">
     <?php
         if ($candidates_data->have_posts()):
         while ($candidates_data->have_posts()): $candidates_data->the_post();
             $type = get_post_meta( get_the_ID(), 'candidat_creation', true );
             ?>
-            <figure class="mmix_card">
+            <figure class="mmix_card" data-type="<?= $type ?>">
                 <div class="mmix_card__hero">
                     <img src="<?= get_post_meta( get_the_ID(), 'candidat_illustration_image', true ) ?>" alt="mmix_card" class="mmix_card__img">
                 </div>
@@ -67,6 +74,7 @@ function mmix_public_display ($atts, $content) {
         <div id="candidate-modal" class="mmix_card single">
     
         </div>
+    </div>
     </div>
 </div>
 

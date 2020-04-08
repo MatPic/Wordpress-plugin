@@ -13,6 +13,10 @@
     box-shadow: 0 0 80px 10px rgba(0, 0, 0, .2);
 }
 
+.multimedialpes_card.single {
+    max-width: 100%;
+}
+
 .mmix_card__hero {
     flex: 0 0 45%
 }
@@ -107,10 +111,21 @@
 }
 
 .mmix-candidatures {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     max-width: 1200px!important;
+}
+
+.mmix-candidatures .grid {
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     grid-gap: 20px;
+
+}
+
+.mmix-candidatures-filters {
+    text-align: center;
+    padding: 20px 20px;
 }
 
 .mmix_btn {

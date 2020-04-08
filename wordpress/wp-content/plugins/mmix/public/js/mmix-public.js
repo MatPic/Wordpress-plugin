@@ -22,6 +22,14 @@
 				$(this).removeClass('visible')
 			}
 		})
+		
+		$('.mmix-filter-btn').click(function (ev) {
+			ev.preventDefault()
+			
+			const selector = this.dataset.filter === "*" ? '' : this.dataset.filter
+			$('.mmix_card').hide()
+			$('.mmix_card' + selector).show()
+		})
 	})
 
 	/**
